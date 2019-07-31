@@ -1,0 +1,36 @@
+{
+  "header": {
+    "dataType": "wifiStationFlow",
+    "lineId": "21",
+    "locationId": "85",
+    "systemId": "323",
+    "deviceId": "0",
+    "collectTime": "2019-06-28 10:05:01.000"
+  },
+  "body": {
+    "eventId": "0",
+    "beginTime": "2019-06-28 10:00:00.000",
+    "endTime": "2019-06-28 10:05:00.000",
+    "eventTime": "2019-06-28 10:05:01.000",
+    "eventData": {
+      "list": [
+        {
+          "userId": "张三",
+          "buildingId": "1",
+          "floorId": "1",
+          "posDesc": "售票机附近",
+          "posX": 123,
+          "posY": 34
+        },
+        {
+          "userId": "李四",
+          "buildingId": "1",
+          "floorId": "2",
+          "posDesc": "厕所附近",
+          "posX": 45,
+          "posY": 67
+        }
+      ]
+    }
+  }
+}

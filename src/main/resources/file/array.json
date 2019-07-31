@@ -1,0 +1,18 @@
+ [
+    {
+      "userId": "张三",
+      "buildingId": "1",
+      "floorId": "1",
+      "posDesc": "售票机附近",
+      "posX": 123,
+      "posY": 34
+    },
+    {
+      "userId": "李四",
+      "buildingId": "1",
+      "floorId": "2",
+      "posDesc": "厕所附近",
+      "posX": 45,
+      "posY": 67
+    }
+  ]
