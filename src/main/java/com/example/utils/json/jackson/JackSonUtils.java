@@ -20,9 +20,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author 谢仕海<br />
+ * @author 谢仕海
  * createDate: 2019-7-29 14:41
- * description: <br/>
+ * description:
+ *  在springboot2.1.6.RELEASE之后，spring-boot-starter-web依赖包已经包含了jackson的所需依赖，无需在手动引入
+ *  配置jackson，可以在配置文件中配置，也可以在ObjectMapper中配置，优先使用ObjectMapper的配置
  */
 
 public class JackSonUtils {

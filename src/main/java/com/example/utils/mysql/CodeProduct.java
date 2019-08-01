@@ -26,7 +26,7 @@ public class CodeProduct<Char> {
     private static final Pattern linePattern = Pattern.compile("_(\\w)");
 
     //指定实体生成所在包的路径
-    private String packageOutPath = "com.example.entity";
+    private String packageOutPath = "com.example.utils.entity";
     //作者名字
     private String authorName = "谢仕海";
 
