@@ -1,4 +1,4 @@
-package com.example.utils.mysql;
+package com.example.utils.generator;
 
 import lombok.Data;
 
