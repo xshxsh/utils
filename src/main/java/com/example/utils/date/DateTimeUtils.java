@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 
 /**
@@ -18,43 +19,46 @@ import java.util.Date;
 
 public class DateTimeUtils {
 
-//    public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HHmmss");
-//    public static final DateTimeFormatter YEAR_MONTH_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM");
-//    public static final DateTimeFormatter SHORT_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyMMdd");
-//    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//    public static final DateTimeFormatter SHORT_DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyMMddHHmmss");
-//    public static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//    public static final DateTimeFormatter LONG_DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss SSS");
+    //    public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HHmmss");
+    //    public static final DateTimeFormatter YEAR_MONTH_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM");
+    //    public static final DateTimeFormatter SHORT_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyMMdd");
+    //    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    //    public static final DateTimeFormatter SHORT_DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyMMddHHmmss");
+    //    public static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    //    public static final DateTimeFormatter LONG_DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss SSS");
 
     private final static ZoneId zoneId = ZoneId.systemDefault();
 
     /**
      * LocalDateTime转dateTime
+     *
      * @param localDateTime
      */
-    public static Date LocalToDate(LocalDateTime localDateTime){
+    public static Date LocalToDate(LocalDateTime localDateTime) {
         return Date.from(localDateTime.atZone(zoneId).toInstant());
     }
 
     /**
      * dateTime转LocalDateTime
+     *
      * @param date
      * @return
      */
-    public static LocalDateTime dateToLocal(Date date){
+    public static LocalDateTime dateToLocal(Date date) {
         return date.toInstant().atZone(zoneId).toLocalDateTime();
     }
 
     /**
      * localDateTime转Timestamp
+     *
      * @param localDateTime
      * @return
      */
-    public static Timestamp localToStamp(LocalDateTime localDateTime){
+    public static Timestamp localToStamp(LocalDateTime localDateTime) {
         return Timestamp.valueOf(localDateTime);
     }
 
-    public static LocalDateTime stampToLocal(Timestamp timestamp){
+    public static LocalDateTime stampToLocal(Timestamp timestamp) {
         return timestamp.toInstant().atZone(zoneId).toLocalDateTime();
     }
 
@@ -84,6 +88,7 @@ public class DateTimeUtils {
 
     /**
      * 返回当前的指定格式的日期
+     *
      * @param formatter
      */
     public static String getCurrentDateStr(DateTimeFormatter formatter) {
@@ -92,6 +97,7 @@ public class DateTimeUtils {
 
     /**
      * 返回当前的指定格式的日期时间
+     *
      * @param formatter
      */
     public static String getCurrentDateTimeStr(DateTimeFormatter formatter) {
@@ -100,6 +106,7 @@ public class DateTimeUtils {
 
     /**
      * 返回当前的指定格式的日期
+     *
      * @param pattern
      * @return
      */
@@ -110,6 +117,7 @@ public class DateTimeUtils {
 
     /**
      * 返回当前的指定格式的时间
+     *
      * @param pattern
      * @return
      */
@@ -119,6 +127,7 @@ public class DateTimeUtils {
 
     /**
      * 返回当前的指定格式的日期时间
+     *
      * @param pattern
      * @return
      */
@@ -128,6 +137,7 @@ public class DateTimeUtils {
 
     /**
      * 根据模式返回指定日期时间
+     *
      * @param dateTimeStr
      * @param pattern
      * @return
@@ -138,6 +148,7 @@ public class DateTimeUtils {
 
     /**
      * 根据模式返回指定日期
+     *
      * @param dateStr
      * @param pattern
      * @return
@@ -148,6 +159,7 @@ public class DateTimeUtils {
 
     /**
      * 根据模式返回指定时间
+     *
      * @param timeStr
      * @param pattern
      * @return
@@ -158,6 +170,7 @@ public class DateTimeUtils {
 
     /**
      * 根据模式返回指定日期
+     *
      * @param date
      * @param pattern
      * @return
@@ -168,6 +181,7 @@ public class DateTimeUtils {
 
     /**
      * 根据模式返回指定日期时间
+     *
      * @param datetime
      * @param pattern
      * @return
@@ -178,6 +192,7 @@ public class DateTimeUtils {
 
     /**
      * 根据模式返回指定时间
+     *
      * @param time
      * @param pattern
      * @return
@@ -241,6 +256,62 @@ public class DateTimeUtils {
      */
     public static boolean isLeapYear(LocalDate localDate) {
         return localDate.isLeapYear();
+    }
+
+    /**
+     * 将Long类型的时间戳转换成String 类型的时间格式
+     */
+    public static String convertTimeToString(Long time, String pattern) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        return formatter.format(LocalDateTime.ofInstant(Instant.ofEpochMilli(time), ZoneId.systemDefault()));
+    }
+
+    /**
+     * 将字符串转日期成Long类型的时间戳
+     */
+    public static Long convertTimeToLong(String time, String pattern) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        LocalDateTime parse = LocalDateTime.parse(time, formatter);
+        return LocalDateTime.from(parse).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+    }
+
+    /**
+     * 取本月第一天
+     */
+    public static LocalDate firstDayOfThisMonth() {
+        LocalDate today = LocalDate.now();
+        return today.with(TemporalAdjusters.firstDayOfMonth());
+    }
+
+    /**
+     * 取本月第N天
+     */
+    public static LocalDate dayOfThisMonth(int n) {
+        LocalDate today = LocalDate.now();
+        return today.withDayOfMonth(n);
+    }
+
+    /**
+     * 取本月最后一天
+     */
+    public static LocalDate lastDayOfThisMonth() {
+        LocalDate today = LocalDate.now();
+        return today.with(TemporalAdjusters.lastDayOfMonth());
+    }
+
+    /**
+     * 取本月第一天的开始时间
+     */
+    public static LocalDateTime startOfThisMonth() {
+        return LocalDateTime.of(firstDayOfThisMonth(), LocalTime.MIN);
+    }
+
+
+    /**
+     * 取本月最后一天的结束时间
+     */
+    public static LocalDateTime endOfThisMonth() {
+        return LocalDateTime.of(lastDayOfThisMonth(), LocalTime.MAX);
     }
 
 }
