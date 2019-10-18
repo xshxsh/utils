@@ -267,6 +267,13 @@ public class DateTimeUtils {
     }
 
     /**
+     * 将Long类型的时间戳转换成LocalDateTime
+     */
+    public static LocalDateTime convertTimeToLocalDateTime(Long time, String pattern) {
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(time), ZoneId.systemDefault());
+    }
+
+    /**
      * 将字符串转日期成Long类型的时间戳
      */
     public static Long convertTimeToLong(String time, String pattern) {
@@ -312,6 +319,35 @@ public class DateTimeUtils {
      */
     public static LocalDateTime endOfThisMonth() {
         return LocalDateTime.of(lastDayOfThisMonth(), LocalTime.MAX);
+    }
+
+    /**
+     * 把ZonedDateTime字符串转换成LocalDateTime字符串
+     *
+     * @param dateTimeStr
+     * @param pattern
+     * @return
+     */
+    public static String parseLocalDateTimeStr(String dateTimeStr, String pattern) {
+        ZonedDateTime zonedDateTime = ZonedDateTime.parse(dateTimeStr);
+        return zonedDateTime.toLocalDateTime().format(DateTimeFormatter.ofPattern(pattern));
+    }
+
+    /**
+     * 获取下一个整num分钟的时间
+     *
+     * @param time
+     * @param num
+     * @return
+     */
+    public static LocalDateTime nextNumMinute(LocalDateTime time, long num) {
+        int second = time.getSecond() + time.getNano();
+        LocalDateTime baseTime = time.withSecond(0).withNano(0);
+        if (second > 0) {
+            return baseTime.plusMinutes(num);
+        } else {
+            return baseTime;
+        }
     }
 
 }
