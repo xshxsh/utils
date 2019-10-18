@@ -201,11 +201,17 @@ public class DateTimeUtils {
         return time.format(DateTimeFormatter.ofPattern(pattern));
     }
 
+    /**
+     * 日期相隔毫秒
+     */
+    public static long periodMillis(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        return Duration.between(startDateTime, endDateTime).toMillis();
+    }
 
     /**
      * 日期相隔秒
      */
-    public static long periodHours(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+    public static long periodSeconds(LocalDateTime startDateTime, LocalDateTime endDateTime) {
         return Duration.between(startDateTime, endDateTime).get(ChronoUnit.SECONDS);
     }
 
