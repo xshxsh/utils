@@ -269,7 +269,7 @@ public class DateTimeUtils {
     /**
      * 将Long类型的时间戳转换成LocalDateTime
      */
-    public static LocalDateTime convertTimeToLocalDateTime(Long time, String pattern) {
+    public static LocalDateTime convertTimeToLocalDateTime(Long time) {
         return LocalDateTime.ofInstant(Instant.ofEpochMilli(time), ZoneId.systemDefault());
     }
 
