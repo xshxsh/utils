@@ -219,7 +219,7 @@ public class DateTimeUtils {
      * 日期相隔天数
      */
     public static long periodDays(LocalDate startDate, LocalDate endDate) {
-        return startDate.until(endDate, ChronoUnit.DAYS);
+        return ChronoUnit.DAYS.between(startDate, endDate);
     }
 
     /**
@@ -354,6 +354,24 @@ public class DateTimeUtils {
         } else {
             return baseTime;
         }
+    }
+
+    /**
+     * 取该日期的最小时间
+     *
+     * @return
+     */
+    public static LocalDateTime minTime(LocalDateTime localDateTime) {
+        return localDateTime.with(LocalTime.MIN);
+    }
+
+    /**
+     * 取该日期的最大时间
+     *
+     * @return
+     */
+    public static LocalDateTime maxTime(LocalDateTime localDateTime) {
+        return localDateTime.with(LocalTime.MAX);
     }
 
 }
