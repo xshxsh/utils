@@ -254,7 +254,7 @@ public class DateTimeUtils {
      * 获取指定日期时间的毫秒数
      */
     public static Long toEpochMilli(LocalDateTime dateTime) {
-        return dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        return dateTime.atZone(zoneId).toInstant().toEpochMilli();
     }
 
     /**
@@ -269,14 +269,14 @@ public class DateTimeUtils {
      */
     public static String convertTimeToString(Long time, String pattern) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
-        return formatter.format(LocalDateTime.ofInstant(Instant.ofEpochMilli(time), ZoneId.systemDefault()));
+        return formatter.format(LocalDateTime.ofInstant(Instant.ofEpochMilli(time), zoneId));
     }
 
     /**
      * 将Long类型的时间戳转换成LocalDateTime
      */
     public static LocalDateTime convertTimeToLocalDateTime(Long time) {
-        return LocalDateTime.ofInstant(Instant.ofEpochMilli(time), ZoneId.systemDefault());
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(time), zoneId);
     }
 
     /**
@@ -285,7 +285,7 @@ public class DateTimeUtils {
     public static Long convertTimeToLong(String time, String pattern) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
         LocalDateTime parse = LocalDateTime.parse(time, formatter);
-        return LocalDateTime.from(parse).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        return LocalDateTime.from(parse).atZone(zoneId).toInstant().toEpochMilli();
     }
 
     /**
