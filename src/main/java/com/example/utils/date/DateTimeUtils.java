@@ -273,6 +273,13 @@ public class DateTimeUtils {
     }
 
     /**
+     * 将LocalDateTime类型的时间戳转换成String类型的时间格式
+     */
+    public static String convertLocalDateTimeToString(LocalDateTime localDateTime, String pattern) {
+        return DateTimeFormatter.ofPattern(pattern).format(localDateTime);
+    }
+
+    /**
      * 将Long类型的时间戳转换成LocalDateTime
      */
     public static LocalDateTime convertTimeToLocalDateTime(Long time) {
