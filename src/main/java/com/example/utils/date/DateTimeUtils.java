@@ -26,6 +26,8 @@ public class DateTimeUtils {
     //    public static final DateTimeFormatter SHORT_DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyMMddHHmmss");
     //    public static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     //    public static final DateTimeFormatter LONG_DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss SSS");
+    //    "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+    //    "2021-04-07T03:39:41.764+00:00" --> "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
 
     private final static ZoneId zoneId = ZoneId.systemDefault();
 
@@ -144,6 +146,17 @@ public class DateTimeUtils {
      */
     public static LocalDateTime parseLocalDateTime(String dateTimeStr, String pattern) {
         return LocalDateTime.parse(dateTimeStr, DateTimeFormatter.ofPattern(pattern));
+    }
+
+    /**
+     * 根据模式返回指定日期，带时区的时间解析
+     *
+     * @param dateTimeStr
+     * @param pattern
+     * @return
+     */
+    public static ZonedDateTime parseZonedDateTime(String dateTimeStr, String pattern) {
+        return ZonedDateTime.parse(dateTimeStr, DateTimeFormatter.ofPattern(pattern));
     }
 
     /**
