@@ -34,13 +34,13 @@ public class RestTemplateConfig {
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
-        SimpleClientHttpRequestFactory simpleClientHttpRequestFactory = new SimpleClientHttpRequestFactory();
-        simpleClientHttpRequestFactory.setReadTimeout(1800000);
-        simpleClientHttpRequestFactory.setConnectTimeout(1800000);
+        HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
+        clientHttpRequestFactory.setConnectTimeout(1000*10*5);
+        clientHttpRequestFactory.setReadTimeout(1000*10*5);
         //调用接口填充用户密码进行授权
-        final RestTemplate restTemplate = restTemplateBuilder.build();
+        final RestTemplate restTemplate = restTemplateBuilder.basicAuthentication(emailAddress, password).build();
         //在内存中缓冲所有传出和传入的流,使用此包装器可以多次读取 ClientHttpResponse getBody()
-        final BufferingClientHttpRequestFactory factory = new BufferingClientHttpRequestFactory(simpleClientHttpRequestFactory);
+        final BufferingClientHttpRequestFactory factory = new BufferingClientHttpRequestFactory(clientHttpRequestFactory);
         restTemplate.setRequestFactory(factory);
         restTemplate.setErrorHandler(new RestTemplateResponseErrorHandler());
         restTemplate.getInterceptors().add(new RestTemplateLogRecordInterceptor());
