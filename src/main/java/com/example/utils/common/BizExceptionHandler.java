@@ -47,6 +47,6 @@ public class BizExceptionHandler {
         final ArrayList<String> errors = new ArrayList<>(10);
         bindingResult.getFieldErrors().forEach(
                 fieldError -> errors.add(fieldError.getField() + ":" + fieldError.getDefaultMessage()));
-        return Response.failResp(StringUtils.collectionToCommaDelimitedString(errors));
+        return Response.failResp(ResponseEnum.R_1000.getCode(), StringUtils.collectionToCommaDelimitedString(errors));
     }
 }

@@ -7,12 +7,16 @@ package com.example.utils.common;
  **/
 
 public enum ResponseEnum {
+    //http错误码
     R_200("200", "OK,成功"),
     R_400("400", "Bad Request,因发送的请求语法错误,服务器无法正常读取"),
     R_401("401", "Unauthorized,需要身份验证后才能获取所请求的内容"),
     R_403("403", "Forbidden,客户端没有权利访问所请求内容,服务器拒绝本次请求"),
     R_404("404", "Not Found,服务器找不到所请求的资源"),
-    R_500("500", "Internal Server Error,服务端未知异常");
+    R_500("500", "Internal Server Error,服务端未知异常"),
+
+    //业务错误码
+    R_1000("1000", "参数校验异常");
 
     private String code;
     private String msg;
