@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 /**
  * @author 谢仕海
  * createDate: 2019-7-31 16:24
- * description:
+ * description: 根据数据库表生成实体类
  */
 
 
