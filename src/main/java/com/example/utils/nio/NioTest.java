@@ -2,7 +2,6 @@ package com.example.utils.nio;
 
 import org.junit.Test;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +11,9 @@ import java.nio.channels.CompletionHandler;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author 谢仕海
@@ -197,12 +199,10 @@ public class NioTest {
     public void readFile() {
 
         Path path = Paths.get("src/main/resources/file/test.txt");
-        try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-            }
-        } catch (Exception e) {
+        try (Stream<String> lines = Files.lines(path, StandardCharsets.UTF_8)) {
+            final List<String> collect = lines.collect(Collectors.toList());
+            System.out.println("完成");
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
