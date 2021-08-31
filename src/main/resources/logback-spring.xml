@@ -3,7 +3,7 @@
 <!--
 多模块项目，可以在公共项目common-utils增加此配置，然后在common-utils的resource目录下新增config文件，再建application.yml,然后增加下面的配置，其他项目就可以读取到配置文件了
 logging:
-  config: common-utils/src/main/resources/logback-spring.xml
+  config: classpath:logback-spring.xml
   -->
 
 <configuration debug="false">
