@@ -1,0 +1,11 @@
+public class LockOfferToQueueException extends RuntimeException {
+    private String lockKey;
+
+    public LockOfferToQueueException(String lockKey) {
+        this.lockKey = lockKey;
+    }
+
+    public String getLockKey() {
+        return this.lockKey;
+    }
+}
