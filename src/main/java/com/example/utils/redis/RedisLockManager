@@ -1,0 +1,75 @@
+package com.aulton.ms.app.account.service.redisa;
+
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import org.springframework.beans.factory.ObjectProvider;
+
+import java.io.Closeable;
+import java.util.Objects;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+
+public final class RedisLockManager implements Closeable {
+    private static final long DEFAULT_MAXIMUM_TIME_TO_WAIT = 3L;
+    private static final ThreadLocal<RedisLockManager> REDIS_LOCK_MANAGER_HOLDER = new ThreadLocal();
+    private final ConcurrentLinkedQueue<Lock> concurrentLinkedQueue = new ConcurrentLinkedQueue();
+
+    public RedisLockManager() {
+    }
+
+    public static RedisLockManager getInstance() {
+        RedisLockManager redisLockManager = (RedisLockManager)REDIS_LOCK_MANAGER_HOLDER.get();
+        if (null != redisLockManager) {
+            return redisLockManager;
+        } else {
+            RedisLockManager result = new RedisLockManager();
+            REDIS_LOCK_MANAGER_HOLDER.set(result);
+            return result;
+        }
+    }
+
+    public void tryLock(String lockKey, long time, TimeUnit unit) {
+        Lock redisLock = this.getRedisLockSupplierService().get(lockKey);
+
+        boolean offer;
+        try {
+            offer = redisLock.tryLock(time, unit);
+            if (!offer) {
+                throw new LockFailException(lockKey);
+            }
+        } catch (InterruptedException var7) {
+            throw new LockFailException(var7, lockKey);
+        }
+
+        offer = this.concurrentLinkedQueue.offer(redisLock);
+        if (!offer) {
+            throw new LockOfferToQueueException(lockKey);
+        }
+    }
+
+    public void tryLock(String lockKey) {
+        this.tryLock(lockKey, 3L, TimeUnit.SECONDS);
+    }
+
+    public void close() {
+        Lock redisLock = (Lock)this.concurrentLinkedQueue.poll();
+        if (redisLock != null) {
+            redisLock.unlock();
+        }
+
+        if (this.concurrentLinkedQueue.isEmpty()) {
+            REDIS_LOCK_MANAGER_HOLDER.remove();
+        }
+
+    }
+
+    private RedisLockSupplierService getRedisLockSupplierService() {
+        ObjectProvider<RedisLockSupplierService> redisLockServiceProvider = ApplicationContextHolder.get().getBeanProvider(RedisLockSupplierService.class);
+        RedisLockSupplierService redisLockSupplierService = (RedisLockSupplierService)redisLockServiceProvider.getIfUnique();
+        if (Objects.isNull(redisLockSupplierService)) {
+            throw new NoSuchBeanDefinitionException(RedisLockSupplierService.class.getName());
+        } else {
+            return redisLockSupplierService;
+        }
+    }
+}
