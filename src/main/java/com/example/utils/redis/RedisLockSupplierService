@@ -1,7 +1,0 @@
-package com.aulton.ms.app.account.service.redisa;
-
-import java.util.concurrent.locks.Lock;
-
-public interface RedisLockSupplierService {
-    Lock get(String var1);
-}
